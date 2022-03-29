@@ -7,22 +7,23 @@ import java.util.Scanner;
  * @author Samu
  */
 public class Miniterminal {
-    public static void main(String[] args) throws FileNotFoundException  {
+    public static void main(String[] args) throws FileNotFoundException, permisosExcepcion{
+        //Scanner para leer datos introducidos por consola.
         Scanner sc = new Scanner(System.in);
         String orden;
         boolean salir = false;
         boolean info=false;
         String salida="no";
-        File carpeta = new File("C:\\Users\\DAW\\Documents\\Docs");
+        //carpeta donde inicia el terminal, inicia en C\\ en windows.
+        File carpeta = new File("\\");
         MiniFileManager manager = new MiniFileManager(carpeta);
-        
-        //metodo split revisar -- parte por espacios array de subacadenas ---
         
         do{
             try{
             System.out.print(">>");
             orden = sc.nextLine();
-            String[] Orden = orden.split(" ");
+            //split, para dividir en distintas cadenas segun el caracter indicado y guardarlo en un array de Strings Orden.
+            String[] Orden = orden.split(" ");                  
             
             //Listar directorio actual
             if(Orden[0].equals("pwd")){ 
@@ -33,7 +34,7 @@ public class Miniterminal {
                     System.out.println("Orden fallida, " + Orden[0] + " no acepta terminos");
                 }
             }
-            //Cambiar de directorio
+            //Cambiar de directorio, cuando el primer String guardado en orden coincida con cd, llamar al metodo changeDir, e introducir en el metodo la segunda subcadena del array Orden
             if(Orden[0].equals("cd")){
                 if(Orden.length<=2 ){
                     String auxRuta = Orden[1];
@@ -52,7 +53,7 @@ public class Miniterminal {
                     String auxRuta = Orden[1];
                     manager.printList2(info, auxRuta);
                 }
-                else{
+                if(Orden.length>2){
                     System.out.println("Orden fallida, " + Orden[0] + " solo acepta hasta 1 termino");
                 }
             }
@@ -65,7 +66,7 @@ public class Miniterminal {
                     String auxRuta = Orden[1];
                     manager.printFullList2(info, auxRuta);
                 }
-                 else{
+                if(Orden.length>2){
                     System.out.println("Orden fallida, " + Orden[0] + " solo acepta  hasta 1 termino");
                 }
             }
@@ -126,11 +127,16 @@ public class Miniterminal {
             if(!Orden[0].equals("exit") && !Orden[0].equals("mv") && !Orden[0].equals("rm") && !Orden[0].equals("mkdir") && !Orden[0].equals("ll") && !Orden[0].equals("ls") && !Orden[0].equals("help") && !Orden[0].equals("cd") && !Orden[0].equals("pwd")){
                 System.out.println("Error " + Orden[0] + " no es reconocible por el sistema" );
             }
-        }   //Que no tenga permisos para modificar archivos
+            }   
+            //Control de errores
+            //Ruta no encontrada
             catch(FileNotFoundException ex){
             System.out.println("Error, no existe la ruta.");
-        }
-        }while(!salir);              
+            }
+            catch(permisosExcepcion ex1){
+            System.out.println("Error, no existe la ruta.");
+            }
+        }while(!salir);   //Fin del programa/salida del terminal           
     }
     
 }
