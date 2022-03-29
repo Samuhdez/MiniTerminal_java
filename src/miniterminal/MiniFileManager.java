@@ -201,6 +201,7 @@ public class MiniFileManager{
             throw new permisosExcepcion("No tienes permisos para mover o modificar este fichero.");
         }
         File nuevaRuta = new File(dir);
+        //Si la nueva ruta existe y es un fichero, te preguntara si deseas sobreescribbir
         if(nuevaRuta.exists() && nuevaRuta.isFile()){
             String decision;
             do{
@@ -209,18 +210,21 @@ public class MiniFileManager{
                 if(decision=="S"){
                     viejaRuta.renameTo(nuevaRuta);
                 }
-                else{
-                    System.out.println("Has decicido no sobreescribir el archivo.");
+                if(decision=="N"){
+                    System.out.println("Has decidido cancelar la acción");
                     return false;
                 }
+                else{
+                    System.out.println("Error.");
+                }
             }while(!decision.equals("S") || !decision.equals("N"));
-        }
+        }//Si la nueva ruta existe y es un directorio, no permite mover o sobreescribirlo.
         if(nuevaRuta.exists() && nuevaRuta.isDirectory()){
             System.out.println("El directorio no se pudo mover, ya existe uno con ese nombre.");
             return false;
         }
         viejaRuta.renameTo(nuevaRuta);
-        //Comprobando si la nueva ruta antes no existia, y ahora si, o sigue sin existir, por lo cuall no se creo.
+        //Comprobando si la nueva ruta antes no existia, y ahora si, o sigue sin existir, por lo cual no se creo.
         if(!nuevaRuta.exists()){
             System.out.println("La ruta no ha cambiado");
             throw new FileNotFoundException();
