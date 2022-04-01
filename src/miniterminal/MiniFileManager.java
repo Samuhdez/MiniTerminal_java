@@ -2,6 +2,8 @@ package miniterminal;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -249,5 +251,46 @@ public class MiniFileManager{
         System.out.println("exit: Salida del programa.");
         System.out.println();
         System.out.println("----------------------------------------------");
+    }
+    //Metodo que se ejecuta al recibir el comando info en la terminal
+    //Devuelve peso del fchero/directorio de la ruta indicada en b y Mb, ademas de su ultima fecha de modificación.
+    void Info(String ruta)throws FileNotFoundException{  
+        
+        File infoRuta = new File(ruta);
+        //Comprobamos si la ruta existe
+        if(!infoRuta.exists()){
+            throw new FileNotFoundException();
+        }
+        //Si es un fichero.
+        if(infoRuta.isFile()){
+        //Guardamos en una variable el peso de fichero en b y calculamos el peso en Mb. la b de la variable esta en minuscula porque byte va en minuscula.
+        long tamañob = infoRuta.length();
+        double tamañomb = tamañob/1048576;
+        //Guardamos la ultima fecha de modificación y le damos formato paara mostrarla.
+        long fechamod = infoRuta.lastModified();
+        String pattern = "EEE MMM d hh:mm:ss zz yyyy";
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        Date lastModifiedDate = new Date( fechamod );
+        System.out.println(infoRuta + "    " + tamañob + " b    " + tamañomb + " Mb    "+ "  " + simpleDateFormat.format(fechamod));
+        //Si muestra 0.0 Mb es porque el archivo es tan "pequeño" que un double no llega a recoger los decimales de su peso en Mb. 1 Mb = 1048576 b.
+        }
+        //si es un directorio.
+        else{
+            long tamañoTotalb=0;
+            //Lista de ficheros/directorios que contiene
+            File[] Lista = infoRuta.listFiles();        
+            //acumulamos el tamaño de cada fichero
+            for (int i = 0; i < Lista.length ; i++) {                                
+                long tamañob = infoRuta.length();
+                tamañoTotalb += tamañob;
+            }
+            //Calculo Mb, formato fecha de modificación.
+            double tamañoTotalmb = tamañoTotalb/1048576;
+            long fechamod = infoRuta.lastModified();
+            String pattern = "EEE MMM d hh:mm:ss zz yyyy";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            Date lastModifiedDate = new Date( fechamod );
+            System.out.println(infoRuta + "    " + tamañoTotalb + " b    " + tamañoTotalmb + " Mb    "+ "  " + simpleDateFormat.format(fechamod));
+        }
     }
 }

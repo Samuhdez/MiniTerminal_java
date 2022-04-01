@@ -114,7 +114,16 @@ public class Miniterminal {
                 else{
                     System.out.println("Orden fallida, " + Orden[0] + " solo acepta 1 termino");
                 }
-            }            
+            }  
+            if(Orden[0].equals("info")){
+                if(Orden.length<=2 || Orden.length>1){
+                    String auxRuta = Orden[1];
+                    manager.Info(auxRuta);
+                }
+                else{
+                    System.out.println("Orden fallida, " + Orden[0] + " acepta unicamente un termino.");
+                }
+            }
             //Salida del programa
             if(Orden[0].equals("exit")){
                 if(Orden.length<=1){
@@ -124,7 +133,7 @@ public class Miniterminal {
                     System.out.println("Orden fallida, " + Orden[0] + " exit no acepta terminos");
                 }
             }
-            if(!Orden[0].equals("exit") && !Orden[0].equals("mv") && !Orden[0].equals("rm") && !Orden[0].equals("mkdir") && !Orden[0].equals("ll") && !Orden[0].equals("ls") && !Orden[0].equals("help") && !Orden[0].equals("cd") && !Orden[0].equals("pwd")){
+            if(!Orden[0].equals("exit") && !Orden[0].equals("mv") && !Orden[0].equals("info") && !Orden[0].equals("rm") && !Orden[0].equals("mkdir") && !Orden[0].equals("ll") && !Orden[0].equals("ls") && !Orden[0].equals("help") && !Orden[0].equals("cd") && !Orden[0].equals("pwd")){
                 System.out.println("Error " + Orden[0] + " no es reconocible por el sistema" );
             }
             }   
@@ -134,7 +143,7 @@ public class Miniterminal {
             System.out.println("Error, no existe la ruta.");
             }
             catch(permisosExcepcion ex1){
-            System.out.println("Error, no existe la ruta.");
+            System.out.println("Error, no tienes los permisos necesarios.");
             }
         }while(!salir);   //Fin del programa/salida del terminal           
     }
