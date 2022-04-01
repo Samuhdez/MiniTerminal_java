@@ -257,7 +257,7 @@ public class MiniFileManager{
     void Info(String ruta)throws FileNotFoundException{  
         
         File infoRuta = new File(ruta);
-        //Comprobamos si la ruta existe
+        //Comprobamos si la ruta existe, sino lanzamos excepción.
         if(!infoRuta.exists()){
             throw new FileNotFoundException();
         }
@@ -274,13 +274,13 @@ public class MiniFileManager{
         System.out.println(infoRuta + "    " + tamañob + " b    " + tamañomb + " Mb    "+ "  " + simpleDateFormat.format(fechamod));
         //Si muestra 0.0 Mb es porque el archivo es tan "pequeño" que un double no llega a recoger los decimales de su peso en Mb. 1 Mb = 1048576 b.
         }
-        //si es un directorio.
+        //Sino es un fichero, es un directorio.
         else{
             long tamañoTotalb=0;
-            //Lista de ficheros/directorios que contiene
-            File[] Lista = infoRuta.listFiles();        
+            //Array de ficheros/directorios que contiene.
+            File[] ArrayRuta = infoRuta.listFiles();        
             //acumulamos el tamaño de cada fichero
-            for (int i = 0; i < Lista.length ; i++) {                                
+            for (int i = 0; i < ArrayRuta.length ; i++) {                                
                 long tamañob = infoRuta.length();
                 tamañoTotalb += tamañob;
             }
@@ -290,6 +290,7 @@ public class MiniFileManager{
             String pattern = "EEE MMM d hh:mm:ss zz yyyy";
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
             Date lastModifiedDate = new Date( fechamod );
+            //Imprimimos
             System.out.println(infoRuta + "    " + tamañoTotalb + " b    " + tamañoTotalmb + " Mb    "+ "  " + simpleDateFormat.format(fechamod));
         }
     }
