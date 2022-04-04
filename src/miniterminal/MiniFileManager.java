@@ -273,7 +273,7 @@ public class MiniFileManager{
         }
         //Si es un fichero.
         if(infoRuta.isFile()){
-        //Guardamos en una variable el peso de fichero en b y calculamos el peso en Mb. la b de la variable esta en minuscula porque byte va en minuscula.
+        //Guardamos en una variable el peso de fichero en b y calculamos el peso en Mb. 
         long tamañob = infoRuta.length();
         double tamañomb = tamañob/1048576;
         //Guardamos la ultima fecha de modificación y le damos formato paara mostrarla.

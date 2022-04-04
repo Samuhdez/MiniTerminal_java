@@ -116,7 +116,7 @@ public class Miniterminal {
                 }
             }  
             if(Orden[0].equals("info")){
-                if(Orden.length<=2 || Orden.length>1){
+                if(Orden.length<=2 && Orden.length>1){
                     String auxRuta = Orden[1];
                     manager.Info(auxRuta);
                 }
