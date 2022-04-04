@@ -32,14 +32,24 @@ public class MiniFileManager{
         return ruta;
     }
     
-    //Comprueba que el directorio exista, y si lo hace la termina apuntara a este
+    //Comprueba que el directorio exista, y si lo hace la terminal apuntara a este      // Las rutas relativas las acepta sino incluyen los "."
     boolean changeDir(String ruta)throws FileNotFoundException{
         File nuevoDir = new File(ruta);
-        if(!nuevoDir.exists()){
+        if(nuevoDir.exists()){
+            carpetaActual=nuevoDir;
+            System.out.println("Se ha cambiado de directorio");
+            return true;           
+        }
+        String rutaActual = carpetaActual.getAbsolutePath();
+        File nuevoDir2 = new File(rutaActual+ruta);
+        if(nuevoDir2.exists()){
+            carpetaActual=nuevoDir2;
+            System.out.println("Se ha cambiado de directorio");
+            return true;
+        }
+        if(!nuevoDir2.exists()){
             throw new FileNotFoundException();
         }
-        carpetaActual=nuevoDir;
-        System.out.println("Se ha cambiado de directorio");
         return true;
     }
     
